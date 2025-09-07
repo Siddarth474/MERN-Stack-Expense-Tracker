@@ -1,0 +1,16 @@
+# dependencies
+node_modules/
+dist/
+build/
+
+# env files
+.env
+
+# logs
+npm-debug.log
+yarn-error.log
+
+# system files
+.DS_Store
+.vscode/
+.idea/
