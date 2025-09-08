@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   server: {
     proxy: {
-      '/v2' : 'https://mern-stack-expense-tracker-rrvt.onrender.com/api'
+      '/v2' : 'http://localhost:5000/api'
     }
   },
   plugins: [react(), tailwindcss()],
