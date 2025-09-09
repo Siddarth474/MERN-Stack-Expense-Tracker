@@ -15,6 +15,11 @@ const router = Router();
 
 router.use(verifyJWT);
 
+router.use((req, res, next) => {
+  console.log("Cookies in transactions route 👉", req.cookies);
+  next();
+});
+
 router.route('/add').post(addTransaction);
 router.route('/:transactionId')
         .get(getTransactionById)

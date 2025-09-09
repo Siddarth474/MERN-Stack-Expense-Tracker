@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import Sidebar from './Sidebar'
 import { handleFailure, handleSuccess } from '../../utils/notification';
-import axios from 'axios';
+import axios from '../../utils/apiCall';
 import { useNavigate, Link } from 'react-router-dom';
 import { ExpenseApi } from '../../context/expenseContext';
 
@@ -36,8 +36,7 @@ const ExpenseForm = () => {
 
   const addTransaction = async (info) => {
     try {
-      const url = '/v2/transactions/add';
-      const response = await axios.post(url, info);
+      const response = await axios.post('/transactions/add', info);
       const {success, message} = response.data;
 
       if(success) {
@@ -64,8 +63,7 @@ const ExpenseForm = () => {
 
   const updateTransaction = async (id, updatedInfo) => {
     try {
-      const url = `/v2/transactions/${id}`;
-      const response = await axios.patch(url, updatedInfo);
+      const response = await axios.patch(`/transactions/${id}`, updatedInfo);
       const {success, message} = response.data;
 
       if(success) {

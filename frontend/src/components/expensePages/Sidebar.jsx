@@ -6,7 +6,7 @@ import { LogOut } from 'lucide-react';
 import { ExpenseApi } from '../../context/expenseContext';
 import { handleFailure, handleSuccess } from '../../utils/notification';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../utils/apiCall';
 
 const Sidebar = () => {
 
@@ -16,8 +16,7 @@ const Sidebar = () => {
 
   const logOutUser = async () => {
     try {
-      const url = '/v2/users/logout';
-      const response = await axios.get(url);
+      const response = await axios.get('/users/logout');
       const {message, success} = response.data;
       
       if(success) {
@@ -92,9 +91,11 @@ const Sidebar = () => {
         </div>
       </div>
       <div className='flex h-[12%] justify-between items-center py-4 px-6 border-t'>
-        {darkMode ? 
+        <div className='w-[45px] h-[45px] rounded-full bg-gray-800 flex justify-center items-center'>
+          {darkMode ? 
         <Moon onClick={() => {setDarkMode(!darkMode); setToggle(false)}} className='cursor-pointer' /> :
         <Sun onClick={() => {setDarkMode(!darkMode); setToggle(false)}} className='cursor-pointer' />}
+        </div>
         <div className='flex items-center gap-2 px-3 relative py-2 rounded transition-colors bg-blue-600'>
           <CircleUserRound size={26} />
           <div className=' absolute top-1 left-9 h-2 w-2 rounded-full bg-green-400 '></div>

@@ -1,85 +1,85 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import ExpenseDonutChart from '../pieChart/ExpenseDonutChart';
-import axios from 'axios';
+import axios from '../../utils/apiCall';
 import { handleFailure, handleSuccess } from '../../utils/notification';
 import { formatCurrency } from '../../utils/currencyFormat';
 import { ExpenseApi } from '../../context/expenseContext';
 
 const MonthlyReportPage = () => {
+  
   const {darkMode} = useContext(ExpenseApi);
 
-    const CATEGORY_COLORS = {
-      "salary": "#16A34A", 
-      "gift": "#EC4899",  
-      "freelancing": "#22C55E",
-      "rent / bills": "#4F46E5",
-      "food & drinks": "#FFA500",
-      "transport": "#2563EB",
-      "shopping": "#DB2777",
-      "entertainment": "#9333EA",
-      "health": "#DC2626",
-      "other income": "#144821",
-      "other expense" : '#4B5563'
-    };
+  const CATEGORY_COLORS = {
+    "salary": "#16A34A", 
+    "gift": "#EC4899",  
+    "freelancing": "#22C55E",
+    "rent / bills": "#4F46E5",
+    "food & drinks": "#FFA500",
+    "transport": "#2563EB",
+    "shopping": "#DB2777",
+    "entertainment": "#9333EA",
+    "health": "#DC2626",
+    "other income": "#144821",
+    "other expense" : '#4B5563'
+  };
 
-    const now = new Date();
-    const toastShown = useRef(false);
+  const now = new Date();
+  const toastShown = useRef(false);
 
-    const [reportPeriod, setReportPeriod] = useState({
-        month: now.getMonth() + 1,
-        year: now.getFullYear()
-    });
+  const [reportPeriod, setReportPeriod] = useState({
+      month: now.getMonth() + 1,
+      year: now.getFullYear()
+  });
 
-    const [monthlyReport, setMonthlyReport] = useState([]);
+  const [monthlyReport, setMonthlyReport] = useState([]);
 
-    const months = [
-        { name: "January", number: 1 },
-        { name: "February", number: 2 },
-        { name: "March", number: 3 },
-        { name: "April", number: 4 },
-        { name: "May", number: 5 },
-        { name: "June", number: 6 },
-        { name: "July", number: 7 },
-        { name: "August", number: 8 },
-        { name: "September", number: 9 },
-        { name: "October", number: 10 },
-        { name: "November", number: 11 },
-        { name: "December", number: 12 }
-    ];
+  const months = [
+      { name: "January", number: 1 },
+      { name: "February", number: 2 },
+      { name: "March", number: 3 },
+      { name: "April", number: 4 },
+      { name: "May", number: 5 },
+      { name: "June", number: 6 },
+      { name: "July", number: 7 },
+      { name: "August", number: 8 },
+      { name: "September", number: 9 },
+      { name: "October", number: 10 },
+      { name: "November", number: 11 },
+      { name: "December", number: 12 }
+  ];
 
-    const handleChange = (e) => {
-        const {name, value} = e.target;
-        const copyInfo = {...reportPeriod};
-        copyInfo[name] = value;
-        setReportPeriod(copyInfo);
-    }
+  const handleChange = (e) => {
+      const {name, value} = e.target;
+      const copyInfo = {...reportPeriod};
+      copyInfo[name] = value;
+      setReportPeriod(copyInfo);
+  }
 
-    const getMontlyReport = async () => {
-        try {
-            const {month, year} = reportPeriod;
-            const url = `/v2/transactions/report/monthly?month=${month}&year=${year}`;
-            const response = await axios.get(url);
-            const {success, message, data} = response.data;
+  const getMontlyReport = async () => {
+      try {
+          const {month, year} = reportPeriod;
+          const response = await axios.get(`/transactions/report/monthly?month=${month}&year=${year}`);
+          const {success, message, data} = response.data;
 
-            if(success) {
-                if(!toastShown.current) {
-                    handleSuccess(message);
-                    toastShown.current = true;
-                }
-                setMonthlyReport(data);
-            }
+          if(success) {
+              if(!toastShown.current) {
+                  handleSuccess(message);
+                  toastShown.current = true;
+              }
+              setMonthlyReport(data);
+          }
 
-        } catch (error) {
-            if(error.response) {
-                const {data, message} = error.response.data;
-                const details = data?.details[0]?.message;
-                handleFailure(details || message);
-            }
-            else handleFailure("SERVER ERROR: " + error.message);
-        }
-    }
+      } catch (error) {
+          if(error.response) {
+              const {data, message} = error.response.data;
+              const details = data?.details[0]?.message;
+              handleFailure(details || message);
+          }
+          else handleFailure("SERVER ERROR: " + error.message);
+      }
+  }
 
-    useEffect(() => {getMontlyReport()}, []);
+  useEffect(() => {getMontlyReport()}, []);
 
   return (
   <div className="p-4 rounded ">

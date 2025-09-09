@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import Sidebar from './Sidebar'
-import axios from 'axios';
 import { handleFailure, handleSuccess } from '../../utils/notification';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from '../../utils/apiCall';
 import { 
   Utensils, Home, 
   Bus, ShoppingBag, 
@@ -21,6 +21,7 @@ import YearlyReportPage from './YearlyReportPage';
 
 
 const DashBoard = () => {
+  
   const [transactionsList, setTransactionsList] = useState([]);
   const toastShown = useRef(false);
   const {step} = useContext(ExpenseApi);
@@ -49,25 +50,34 @@ const DashBoard = () => {
 
   useEffect(() => {
     const fetchTransactions = async () => {
-      const url = '/v2/transactions/';
-      const response = await axios.get(url);
-      const {data, message, success} = response.data;
+      try {
+        const response = await axios.get("/transactions/");
+        const { data, message, success } = response.data;
 
-      if(success) {
-        if(!toastShown.current) {
-          handleSuccess(message);
+        if (success) {
+          if (!toastShown.current) {
+            handleSuccess(message);
+            toastShown.current = true;
+          }
+          setTransactionsList(data);
+        }
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
+
+        if (!toastShown.current) {
+          handleFailure(error.response?.data?.message || "Failed to load transactions");
           toastShown.current = true;
         }
-        setTransactionsList(data);
       }
     };
+
     fetchTransactions();
   }, []);
 
+
   const deleteTransaction  = async (id) => {
     try {
-      const url = `/v2/transactions/${id}`;
-      const response = await axios.delete(url);
+      const response = await axios.delete(`/transactions/${id}`);
       const {message, success} = response.data;
 
       if(success) {
@@ -158,8 +168,8 @@ const DashBoard = () => {
                 value={filters.type}
                 className={` py-1 px-3 rounded border border-gray-500  shadow outline-0 shrink-0 w-[120px]
                 ${darkMode ? 'bg-[#191818] text-white' : 'bg-gray-100 text-black'}`}>
-                  <option hidden>Type</option>
-                  <option value=''>None</option>
+                  <option value="" disabled hidden>Type</option>
+                  <option value="">All</option>
                   <option value='expense'>Expense</option>
                   <option value='income'>Income</option>
                 </select>
@@ -168,7 +178,8 @@ const DashBoard = () => {
                 value={filters.sortByAmount}
                 className={`py-1 px-3 rounded border border-gray-500  shadow outline-0 shrink-0 w-[120px]
                 ${darkMode ? 'bg-[#191818] text-white' : 'bg-gray-100 text-black'}`}>
-                  <option hidden>Amount</option>
+                  <option value='' disabled hidden>Amount</option>
+                  <option value="">All</option>
                   <option value='low'>Low to High</option>
                   <option value='high'>High to Low</option>
                 </select>

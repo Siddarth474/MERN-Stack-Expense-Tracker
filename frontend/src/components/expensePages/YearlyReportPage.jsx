@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import ExpenseDonutChart from '../pieChart/ExpenseDonutChart';
-import axios from 'axios';
+import axios from '../../utils/apiCall';
 import { handleFailure, handleSuccess } from '../../utils/notification';
 import { formatCurrency } from '../../utils/currencyFormat';
 import { ExpenseApi } from '../../context/expenseContext';
@@ -41,8 +41,7 @@ const YearlyReportPage = () => {
   const getYearlyReport = async () => {
     try {
         const {year} = reportPeriod;
-        const url = `/v2/transactions/report/yearly?year=${year}`;
-        const response = await axios.get(url);
+        const response = await axios.get(`/transactions/report/yearly?year=${year}`);
         const {success, message, data} = response.data;
 
         if(success) {

@@ -1,7 +1,7 @@
 import React, {useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { handleFailure, handleSuccess } from '../../utils/notification';
-import axios from 'axios';
+import axios from '../../utils/apiCall';
 import { Eye, EyeOff } from 'lucide-react';
 
 //import { ApiCall } from '../utils/apiCall';
@@ -35,8 +35,7 @@ const RegisterForm = () => {
     }
     
     try {
-      const url = "/v2/users/register";
-      const response = await axios.post(url, registerInfo);
+      const response = await axios.post('/users/register', registerInfo);
 
       const {success, message} = response.data;
 

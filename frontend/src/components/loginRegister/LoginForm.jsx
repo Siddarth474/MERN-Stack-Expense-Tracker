@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { handleFailure, handleSuccess } from '../../utils/notification';
-import axios from 'axios';
+import axios from '../../utils/apiCall';
 import { Eye, EyeOff } from 'lucide-react';
 import { ExpenseApi } from '../../context/expenseContext';
 
 const LoginForm = () => {
+  const BASE_URL = import.meta.env.VITE_BACKEND_PUBLIC_URL;
 
   const [loginInfo, setLoginInfo] = useState({
     email: '',
@@ -33,10 +34,10 @@ const LoginForm = () => {
     }
 
     try {
-      const url = '/v2/users/login';
-      const response = await axios.post(url, loginInfo);
+      const response = await axios.post('/users/login', loginInfo);
 
       const {success, message, data} = response.data;
+      console.log(response.data)
       const {user} = data;
       setUsername(user.username);
       if(success) {
@@ -54,6 +55,7 @@ const LoginForm = () => {
     } catch (error) {
       if(error.response) {
         const {data, message} = error.response.data;
+        console.log(error.response.data)
         const details = data?.details[0]?.message;
         handleFailure(details || message);
       }
