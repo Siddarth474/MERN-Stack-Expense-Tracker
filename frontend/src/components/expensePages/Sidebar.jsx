@@ -44,7 +44,7 @@ const Sidebar = () => {
       ${showPopUp ? 'block' : 'hidden'}`}>
     </div>
 
-    {showPopUp && (<div className='top-[40%] max-w-[300px] w-full mx-auto left-1/2 absolute z-70 bg-[#170d47]  p-5 rounded text-white
+    {showPopUp && (<div className='top-[45%] max-w-[300px] w-full mx-auto left-1/2 absolute z-70 bg-[#170d47]  p-5 rounded text-white
     -translate-x-1/2 -translate-y-1/2'>
       <h1 className='text-center font-bold text-xl mb-3'>Log Out</h1>
       <p className='font-semibold'>Are you sure you want to log out?</p>

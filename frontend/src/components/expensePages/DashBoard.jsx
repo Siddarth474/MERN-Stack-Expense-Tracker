@@ -217,8 +217,8 @@ const DashBoard = () => {
             </div>
           )}
           {transactionsList.length > 0 && transactionsList.length < 3 && step === 1 && 
-          (<div className='w-full max-w-[700px] text-white my-5 flex flex-col gap-4 grow 
-          items-center justify-center opacity-80'>
+          (<div className={`w-full max-w-[700px] my-5 flex flex-col gap-4 grow items-center 
+            justify-center opacity-80 ${darkMode ? 'text-white' : 'text-black'}`}>
             <PiggyBank size={100} strokeWidth={1} />
             <p className='font-semibold text-xl text-center'>Your recent transactions will appear here.</p>
           </div>)}
