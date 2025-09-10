@@ -46,7 +46,7 @@ const ExpenseForm = () => {
           amount: '',
           description: '',
           type: 'expense',
-          date: ''
+          date: new Date().toISOString().split('T')[0],
         });
         setTimeout(() => navigate('/dashboard'), 1100);
       }
@@ -73,7 +73,7 @@ const ExpenseForm = () => {
           amount: '',
           description: '',
           type: "expense",
-          date: ''
+          date: new Date().toISOString().split('T')[0],
         });
         setTimeout(() => navigate('/dashboard'), 1100);
       }
@@ -106,7 +106,7 @@ const ExpenseForm = () => {
       amount: '',
       description: '',
       type: "expense",
-      date: ''
+      date: new Date().toISOString().split('T')[0]
     });
   }
 
@@ -204,10 +204,8 @@ const ExpenseForm = () => {
                   id='date'
                   name='date'
                   value={transactionInfo.date} 
-                  type='text' 
-                  placeholder="dd-mm-yyyy" 
-                  onFocus={(e) => (e.target.type = "date")} 
-                  onBlur={(e) => (e.target.type = "text")}
+                  type='date' 
+                  
                   className={`px-2 py-1 outline-0 rounded ${darkMode ? 'bg-[#1E1E1E] text-white' : 'bg-gray-200'}`} />
               </div>
               <div className='flex gap-3'>

@@ -10,7 +10,7 @@ const ExpenseApiProvider = (props) => {
         amount: '',
         description: '',
         type: "expense",
-        date: '',
+        date: new Date().toISOString().split('T')[0],
     });
     const [isEdit, setIsEdit] = useState(false);
     const [toggle, setToggle] = useState(false);
