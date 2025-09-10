@@ -82,27 +82,27 @@ const MonthlyReportPage = () => {
   useEffect(() => {getMontlyReport()}, []);
 
   return (
-  <div className="p-4 rounded ">
+  <div className="rounded-md">
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {/* Donut Chart */}
-      <div className={` rounded shadow-md flex h-max justify-center
+      <div className={` rounded-md shadow-md flex h-max justify-center
         ${darkMode ? 'bg-[#2A2A2A]' : 'bg-white'}`}>
         <ExpenseDonutChart data={monthlyReport.breakdown} COLORS={CATEGORY_COLORS} />
       </div>
 
       {/* Monthly Report Section */}
-      <div className={`p-5 rounded flex shadow-md flex-col
+      <div className={`p-5 rounded-md flex shadow-md flex-col
         ${darkMode ? 'bg-[#2A2A2A] text-white': 'bg-white text-black' }`}>
         <h1 className="text-xl font-bold mb-3">Monthly Report</h1>
 
         {/* Filters */}
-        <div className="flex flex-wrap text-black gap-2 mb-5">
-          <div className='flex justify-between gap-2'>
+        <div className="flex flex-wrap text-black gap-3 mb-5">
+          <div className='flex w-full lg:w-[80%] justify-between gap-2'>
               <select
               onChange={handleChange}
               name="month"
               value={reportPeriod.month}
-              className={`border border-gray-500 capitalize px-2 py-1 outline-0 rounded cursor-pointer
+              className={`border border-gray-500 capitalize w-[50%] px-2 py-1 outline-0 rounded-md cursor-pointer
                 ${darkMode ? 'bg-[#191818] text-white' : 'bg-white text-black'}`}
               >
                 <option value="">Select Month</option>
@@ -119,19 +119,19 @@ const MonthlyReportPage = () => {
               value={reportPeriod.year}
               type="number"
               placeholder="Enter year"
-              className={`outline-0 border w-full border-gray-500 px-2 py-1 rounded cursor-pointer
+              className={`outline-0 border w-[50%] border-gray-500 px-2 py-1 rounded-md cursor-pointer
                 ${darkMode ? 'bg-[#191818] text-white' : 'bg-white text-black'}`}
               />
           </div>
 
           <button
             onClick={getMontlyReport}
-            className="bg-blue-600 py-1 px-3 w-full lg:w-max text-white font-semibold rounded hover:bg-blue-500 cursor-pointer"
+            className="bg-blue-600 py-1 px-3 w-full lg:w-max text-white font-semibold rounded-md hover:bg-blue-500 cursor-pointer"
           >
             GET
           </button>
         </div>
-        <div className='flex justify-between items-center flex-wrap gap-2 p-3 shadow-md rounded'>
+        <div className='flex justify-between items-center flex-wrap gap-2 p-3 shadow-md rounded-md'>
           <p className='font-semibold '>Total Income:  
             <span className='text-green-500 ml-1'> {formatCurrency(monthlyReport.totalIncome)}</span>
           </p>
@@ -140,11 +140,11 @@ const MonthlyReportPage = () => {
           </p>
         </div>
         {/* Report List */}
-        <div className="grid grid-cols-1 gap-4 mt-5 overflow-y-auto max-h-[350px]">
+        <div className="grid grid-cols-1 gap-4 mt-4 overflow-y-auto max-h-[350px]">
           {monthlyReport.breakdown?.map((m, ind) => (
             <div
               key={ind}
-              className={`grid grid-cols-2 flex-wrap gap-4 font-semibold shadow-md py-2 px-3 rounded
+              className={`grid grid-cols-2 flex-wrap gap-4 font-semibold shadow-md py-2 px-3 rounded-md
               ${darkMode ? 'bg-[#1E1E1E]' : 'bg-gray-100'}`}>
               <div className='flex items-center gap-2'>
                 <div className='h-3 w-3 rounded-full'

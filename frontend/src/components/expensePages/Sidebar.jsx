@@ -36,12 +36,11 @@ const Sidebar = () => {
 
   return (
     <>
-    <div 
+    <div onClick={() => setToggle(false)}
       className={`fixed top-0 left-0 bg-black h-full w-full opacity-40 z-45
       ${toggle ? 'block' : 'hidden'}`}>
     </div>
-    <div 
-      className={`fixed top-0 left-0 bg-black h-full w-full opacity-40 z-45
+    <div className={`fixed top-0 left-0 bg-black h-full w-full opacity-40 z-45
       ${showPopUp ? 'block' : 'hidden'}`}>
     </div>
 

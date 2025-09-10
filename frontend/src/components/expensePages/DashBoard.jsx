@@ -12,13 +12,13 @@ import {
   ClipboardX, Trash2,
   SquarePen,
   Gift,
-  BriefcaseBusiness
+  BriefcaseBusiness,
+  PiggyBank,
 } from "lucide-react";
 import { ExpenseApi } from '../../context/expenseContext';
 import MonthlyReportPage from './MonthlyReportPage';
 import { formatCurrency } from '../../utils/currencyFormat';
 import YearlyReportPage from './YearlyReportPage';
-
 
 const DashBoard = () => {
   
@@ -87,7 +87,6 @@ const DashBoard = () => {
 
     } catch (error) {
       if(error.response) {
-        console.log(error.response);
         const {message} = error.response.data;
         handleFailure(message);
       }
@@ -134,11 +133,12 @@ const DashBoard = () => {
       {/* Transaction page side */}
       <div className={`w-full flex flex-col items-center h-screen lg:w-[76%] 
         ${darkMode ? 'bg-[#121212] ' : 'bg-gray-200'}`}>
+
         {/* transactions box */}
         { !transactionsList.length && 
           <h1 className='block md:hidden text-[26px] text-blue-800 font-bold underline mt-5'>Transactions</h1> 
         }
-        <div className={`flex-1 flex flex-col w-full sm:m-8 items-center
+        <div className={`flex-1 flex flex-col w-full sm:m-8 p-4 items-center
           ${!transactionsList.length ? 'md:justify-center' : ''} overflow-y-auto`}>
 
           {!transactionsList.length && (
@@ -148,16 +148,16 @@ const DashBoard = () => {
               <h1 className='text-2xl md:text-[26px] font-semibold mt-3'>No Transactions Yet!!</h1>
             </div>
           )}
-
+          
           {transactionsList.length > 0 && step === 1 && (
-            <div className={`max-w-[700px] sm:shadow-md w-full flex flex-col text-black p-7 sm:rounded-md
+            <div className={`max-w-[700px] md:shadow-md w-full flex flex-col text-black p-7 rounded-md
             ${darkMode ? 'bg-[#2A2A2A] text-white ' : 'bg-gray-200 text-black'} `}>
               <h1 className='text-[26px]  font-bold underline mb-5'>Transactions</h1>
               {/* Filter bars */}
-              <div className='flex gap-5 overflow-x-auto pb-2'>
+              <div className='flex gap-5 overflow-x-auto'>
                 <select onChange={(e) => setFilters({ ...filters, sortByDate: e.target.value })}
                 value={filters.sortByDate} 
-                className={` py-1 px-3 rounded border border-gray-500  shadow outline-0 shrink-0 w-[120px] 
+                className={` py-1 px-3 rounded-md border border-gray-500  shadow outline-0 shrink-0 w-[120px] 
                 ${darkMode ? 'bg-[#191818] text-white' : 'bg-gray-100 text-black'}`}>
                   <option hidden >Date</option>
                   <option value='latest'>By Latest</option>
@@ -166,7 +166,7 @@ const DashBoard = () => {
 
                 <select onChange={(e) => setFilters({ ...filters, type: e.target.value })}
                 value={filters.type}
-                className={` py-1 px-3 rounded border border-gray-500  shadow outline-0 shrink-0 w-[120px]
+                className={` py-1 px-3 rounded-md border border-gray-500  shadow outline-0 shrink-0 w-[120px]
                 ${darkMode ? 'bg-[#191818] text-white' : 'bg-gray-100 text-black'}`}>
                   <option value="" disabled hidden>Type</option>
                   <option value="">All</option>
@@ -176,7 +176,7 @@ const DashBoard = () => {
                 
                 <select onChange={(e) => setFilters({ ...filters, sortByAmount: e.target.value })}
                 value={filters.sortByAmount}
-                className={`py-1 px-3 rounded border border-gray-500  shadow outline-0 shrink-0 w-[120px]
+                className={`py-1 px-3 rounded-md border border-gray-500  shadow outline-0 shrink-0 w-[120px]
                 ${darkMode ? 'bg-[#191818] text-white' : 'bg-gray-100 text-black'}`}>
                   <option value='' disabled hidden>Amount</option>
                   <option value="">All</option>
@@ -186,30 +186,29 @@ const DashBoard = () => {
               </div>
 
               {/* Transactions Cards */}
-              <div className='overflow-y-auto w-full mt-2 max-h-[400px]'>
+              <div className='overflow-y-auto w-full mt-2 max-h-[500px]'>
                 {applyFilters(transactionsList).map((t) => (
                   <div key={t._id} onMouseEnter={() => setHovered(t._id)} onMouseLeave={() => setHovered(null)}
-                  className={`grid w-full grid-cols-1 sm:grid-cols-4 items-center gap-3 p-3 rounded cursor-pointer
-                  shadow-md mt-5 transform-gpu hover:shadow-lg  
+                  className={`grid w-full grid-cols-1 md:grid-cols-4 items-center gap-3 p-4 rounded-md cursor-pointer
                   ${darkMode ? 'bg-[#1E1E1E] text-white hover:bg-[#333333]' : 'bg-gray-100 text-black'}
-                  hover:-translate-y-1 transition duration-200`}>
+                  hover:-translate-y-1 transition duration-200 shadow-md mt-5 transform-gpu hover:shadow-lg `}>
                     <p className='flex items-center gap-2 capitalize font-semibold '>
                       {categoryIcons[t.category] || categoryIcons["others"]} {t.category}
                     </p>
-                    <p className='p-1 sm:text-center'>
+                    <p className='p-1 md:text-center'>
                       {t.date.split("T")[0]}
                     </p>
                     <p className={
                       `font-semibold text-lg ${t.type === "income" ? "text-green-500" : "text-red-500"}
-                      sm:text-right`}>
+                      md:text-right`}>
                       {t.type === "income" ? "+" : "-"}{formatCurrency(t.amount)}
                     </p>
                     {hovered === t._id && (
-                      <div className='flex gap-7 transition-opacity duration-300 sm:gap-2 justify-end sm:justify-evenly right-0'>
-                        <Trash2 size={17} onClick={() => deleteTransaction(t._id)}
+                      <div className='flex gap-7 transition-opacity duration-300 md:gap-2 justify-end md:justify-evenly right-0'>
+                        <Trash2 size={18} onClick={() => deleteTransaction(t._id)}
                         className='text-red-500 hover:text-red-700' />
                         <SquarePen onClick={() => handleEdit(t._id)}
-                        size={17} className='hover:text-gray-600' />
+                        size={18} className='hover:text-gray-600' />
                     </div>
                     )}
                   </div>
@@ -217,6 +216,12 @@ const DashBoard = () => {
               </div>
             </div>
           )}
+          {transactionsList.length > 0 && transactionsList.length < 3 && step === 1 && 
+          (<div className='w-full max-w-[700px] text-white my-5 flex flex-col gap-4 grow 
+          items-center justify-center opacity-80'>
+            <PiggyBank size={100} strokeWidth={1} />
+            <p className='font-semibold text-xl'>Your recent transactions will appear here.</p>
+          </div>)}
             
           {/* Monthly Report */}
           {transactionsList.length > 0 && step === 2 && (
@@ -242,7 +247,7 @@ const DashBoard = () => {
               <Plus size={30} className='font-bold' />
           </Link>
           <Menu onClick={() => setToggle(true)}
-            size={25} 
+            size={30} 
             className='block lg:hidden text-white font-bold' 
           />
         </div>

@@ -8,7 +8,7 @@ import { ExpenseApi } from '../../context/expenseContext';
 const ExpenseForm = () => {
   const navigate = useNavigate();
 
-  const {transactionInfo, setTransactionInfo, isEdit, setIsEdit} = useContext(ExpenseApi);
+  const {transactionInfo, setTransactionInfo, isEdit, setIsEdit, darkMode} = useContext(ExpenseApi);
   
   const expenseCategories = [
     'food & drinks', 
@@ -113,8 +113,10 @@ const ExpenseForm = () => {
   return (
     <div className='flex'>
         <Sidebar />
-        <div className='w-full bg-gray-300 flex justify-center items-center lg:w-[76%] h-screen '>
-          <div className='max-w-[500px] w-full bg-white text-black p-5 m-4 rounded-md'>
+        <div className={`w-full flex justify-center items-center lg:w-[76%] h-screen
+          ${darkMode ? 'bg-[#121212]' : 'bg-gray-300'} `}>
+          <div className={`max-w-[500px] w-full text-black p-5 m-4 rounded-md
+            ${darkMode ? 'bg-[#2A2A2A] text-white': 'bg-white text-black'}`}>
             <h1 className='text-2xl font-semibold mb-5'>Add Transaction</h1>
             
             <form onSubmit={handleSubmit}>
@@ -128,6 +130,7 @@ const ExpenseForm = () => {
                       name='type' 
                       value='income'
                       type='radio' 
+                      checked={transactionInfo.type === 'income'} 
                       className='w-4 h-4 cursor-pointer' />
                   </div>
 
@@ -148,8 +151,9 @@ const ExpenseForm = () => {
                   <label className='font-semibold'>Category</label>
                   <select onChange={handleChange} 
                     name='category' 
-                    value={transactionInfo.expenseCategories} 
-                    className='text-black bg-gray-200 capitalize px-2 py-1 outline-0 rounded cursor-pointer'>
+                    value={transactionInfo.category} 
+                    className={`capitalize px-2 py-1 outline-0 rounded cursor-pointe
+                    ${darkMode ? 'bg-[#1E1E1E] text-white' : 'bg-gray-200'}`}>
                       <option value=''>Select category</option>
                       {expenseCategories.map((item, index) => (
                         <option key={index}>{item}</option>
@@ -162,8 +166,9 @@ const ExpenseForm = () => {
                   <label className='font-semibold'>Category</label>
                   <select onChange={handleChange} 
                     name='category' 
-                    value={transactionInfo.incomeCategories} 
-                    className='text-black bg-gray-200 capitalize px-2 py-1 outline-0 rounded cursor-pointer'>
+                    value={transactionInfo.category} 
+                    className={`capitalize px-2 py-1 outline-0 rounded cursor-pointe
+                    ${darkMode ? 'bg-[#1E1E1E] text-white' : 'bg-gray-200'}`}>
                       <option value=''>Select category</option>
                       {incomeCategories.map((item, index) => (
                         <option key={index}>{item}</option>
@@ -179,7 +184,7 @@ const ExpenseForm = () => {
                   value={transactionInfo.amount} 
                   type='number' 
                   placeholder='Enter amount'
-                  className='text-black bg-gray-200 px-2 py-1 outline-0 rounded ' />
+                  className={`px-2 py-1 outline-0 rounded ${darkMode ? 'bg-[#1E1E1E] text-white' : 'bg-gray-200'}`} />
               </div>
 
               <div className='flex flex-col gap-1 mb-3'>
@@ -190,7 +195,7 @@ const ExpenseForm = () => {
                   value={transactionInfo.description} 
                   type='text' 
                   placeholder='Enter description'
-                  className='text-black bg-gray-200 px-2 py-1 outline-0 rounded ' />
+                  className={`px-2 py-1 outline-0 rounded ${darkMode ? 'bg-[#1E1E1E] text-white' : 'bg-gray-200'}`} />
               </div>
 
               <div className='flex flex-col gap-1 mb-3'>
@@ -199,8 +204,11 @@ const ExpenseForm = () => {
                   id='date'
                   name='date'
                   value={transactionInfo.date} 
-                  type='date' 
-                  className='text-black bg-gray-200 px-2 py-1 outline-0 rounded ' />
+                  type='text' 
+                  placeholder="dd-mm-yyyy" 
+                  onFocus={(e) => (e.target.type = "date")} 
+                  onBlur={(e) => (e.target.type = "text")}
+                  className={`px-2 py-1 outline-0 rounded ${darkMode ? 'bg-[#1E1E1E] text-white' : 'bg-gray-200'}`} />
               </div>
               <div className='flex gap-3'>
                 <button type='submit' className='w-full bg-blue-600 text-white p-2 

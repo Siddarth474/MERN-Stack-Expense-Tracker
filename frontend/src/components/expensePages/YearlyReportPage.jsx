@@ -65,16 +65,16 @@ const YearlyReportPage = () => {
   useEffect(() => {getYearlyReport()}, []);
 
   return (
-  <div className="p-4 rounded ">
+  <div className="rounded-md">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Donut Chart */}
-        <div className={` rounded shadow-md flex h-max justify-center
+        <div className={`rounded-md shadow-md flex h-max justify-center
           ${darkMode ? 'bg-[#2A2A2A]' : 'bg-white'}`}>
           <ExpenseDonutChart data={yearlyReport.breakdown} COLORS={CATEGORY_COLORS} />
         </div>
   
         {/* Monthly Report Section */}
-        <div className={`p-5 rounded flex shadow-md flex-col
+        <div className={`p-5 rounded-md flex shadow-md flex-col
           ${darkMode ? 'bg-[#2A2A2A] text-white': 'bg-white text-black' }`}>
           <h1 className="text-xl font-bold mb-3">Yearly Report</h1>
   
@@ -86,17 +86,17 @@ const YearlyReportPage = () => {
             value={reportPeriod.year}
             type="number"
             placeholder="Enter year"
-            className={`outline-0 border w-[80%] border-gray-500 px-2 py-1 rounded cursor-pointer
+            className={`outline-0 border w-[80%] border-gray-500 px-2 py-1 rounded-md cursor-pointer
               ${darkMode ? 'bg-[#191818] text-white' : 'bg-white text-black'}`}
             />
           
             <button onClick={getYearlyReport}
-              className="bg-blue-600 py-1 w-[20%] px-3 lg:w-max text-white font-semibold rounded
+              className="bg-blue-600 py-1 w-[20%] px-3 lg:w-max text-white font-semibold rounded-md
               hover:bg-blue-500 cursor-pointer">
               GET
             </button>
           </div>
-          <div className='flex justify-between items-center flex-wrap gap-7 p-3 shadow-md rounded'>
+          <div className='flex justify-between items-center flex-wrap gap-5 p-3 shadow-md rounded-md'>
             <p className='font-semibold '>Total Income:  
               <span className='text-green-500 ml-1'> {formatCurrency(yearlyReport.totalIncome)}</span>
             </p>
@@ -105,11 +105,11 @@ const YearlyReportPage = () => {
             </p>
           </div>
           {/* Report List */}
-          <div className="grid grid-cols-1 gap-4 mt-5 overflow-y-auto max-h-[350px]">
+          <div className="grid grid-cols-1 gap-4 mt-4 overflow-y-auto max-h-[350px]">
             {yearlyReport.breakdown?.map((m, ind) => (
               <div
                 key={ind}
-                className={`grid grid-cols-2 flex-wrap gap-4 font-semibold shadow-md py-2 px-3 rounded
+                className={`grid grid-cols-2 flex-wrap gap-4 font-semibold shadow-md py-2 px-3 rounded-md
                 ${darkMode ? 'bg-[#1E1E1E]' : 'bg-gray-100'}`}>
                 <div className='flex items-center gap-2'>
                   <div className='h-3 w-3 rounded-full'
