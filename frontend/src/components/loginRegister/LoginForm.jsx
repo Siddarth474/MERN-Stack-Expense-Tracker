@@ -64,7 +64,7 @@ const LoginForm = () => {
   }
 
   return (
-    <div className='h-screen w-full flex justify-center bg-[#1E1E2E] items-center'>
+    <div className='h-screen w-full flex flex-col justify-center bg-[#1E1E2E] items-center'>
         <div className='max-w-[400px] w-full bg-gray-300 p-5 m-4 rounded-md'>
         <h1 className='text-blue-600 font-bold text-2xl sm:text-[26px] text-center mb-3'>Login</h1>
         <form onSubmit={handleLogin}>
@@ -101,6 +101,17 @@ const LoginForm = () => {
         <div className='flex gap-1 mt-2 justify-center items-center'>
           <p>Don't have an account?</p>
           <p className='underline text-blue-600 cursor-pointer'><Link to='/register'>register</Link></p> 
+        </div>
+      </div>
+      <div className='max-w-[400px] w-full bg-gray-300 p-3 m-2 rounded-md'>
+        <h2 className='text-lg font-bold mb-2 underline'>Demo Account</h2>
+        <div>
+          <p><span className='font-semibold'>Email:</span> rakesh@gmail.com</p>
+          <p><span className='font-semibold'>Password:</span> 1234567</p>
+        </div>
+        <div className='mt-3'>
+          <p><span className='font-semibold'>Email:</span> user@gmail.com</p>
+          <p><span className='font-semibold'>Password:</span> 12345678</p>
         </div>
       </div>
     </div>
