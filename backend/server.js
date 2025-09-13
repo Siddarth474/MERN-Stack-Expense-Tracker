@@ -21,6 +21,10 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
+app.get("/ping", (req, res) => {
+  res.status(200).send("OK");
+});
+
 app.use('/api/v2/users', userRouter);
 app.use('/api/v2/transactions', transactionRouter);
 
