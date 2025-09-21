@@ -3,9 +3,8 @@ import {Navigate, Route, Routes} from 'react-router-dom'
 import './App.css'
 import RegisterForm from './components/loginRegister/RegisterForm'
 import LoginForm from './components/loginRegister/LoginForm'
-import Sidebar from './components/expensePages/Sidebar'
 import ExpenseForm from './components/expensePages/ExpenseForm'
-import { ToastContainer } from 'react-toastify'
+import { Toaster } from 'react-hot-toast';
 import DashBoard from './components/expensePages/DashBoard'
 
 function App() {
@@ -20,7 +19,7 @@ function App() {
           <Route path='/dashboard' element={<DashBoard />} />
           <Route path='/form' element={<ExpenseForm />} />
         </Routes>
-        <ToastContainer />
+        <Toaster position="top-right" reverseOrder={false} />
     </div>
   )
 }

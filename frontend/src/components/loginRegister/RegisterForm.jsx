@@ -2,9 +2,7 @@ import React, {useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { handleFailure, handleSuccess } from '../../utils/notification';
 import axios from '../../utils/apiCall';
-import { Eye, EyeOff } from 'lucide-react';
-
-//import { ApiCall } from '../utils/apiCall';
+import { Eye, EyeOff, Loader } from 'lucide-react';
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -16,6 +14,7 @@ const RegisterForm = () => {
     password: ''
   });
 
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const Icon = showPassword ? Eye : EyeOff;
 
@@ -35,6 +34,7 @@ const RegisterForm = () => {
     }
     
     try {
+      setLoading(true);
       const response = await axios.post('/users/register', registerInfo);
 
       const {success, message} = response.data;
@@ -46,15 +46,18 @@ const RegisterForm = () => {
         },2000);
       }
 
-
     } catch (error) {
       if (error.response) {
+        setLoading(false);
         const { message, data } = error.response.data;
         const details = data?.details?.[0]?.message;
         handleFailure(details || message);
       } else {
         handleFailure("SERVER ERROR: " + error.message);
       }
+
+    }finally{
+      setLoading(false);
     }
   }
 
@@ -73,7 +76,7 @@ const RegisterForm = () => {
             placeholder='Enter fullname'
             autoFocus 
             value={registerInfo.fullname}
-            className='px-2 py-1 rounded bg-white outline-0' />
+            className='px-2 py-1 rounded-md bg-white outline-0' />
         </div>
 
         <div className='flex flex-col gap-1 mb-3'>
@@ -84,7 +87,7 @@ const RegisterForm = () => {
             type='text' 
             placeholder='Enter username'
             value={registerInfo.username} 
-            className='px-2 py-1 rounded bg-white outline-0' />
+            className='px-2 py-1 rounded-md bg-white outline-0' />
         </div>
 
         <div className='flex flex-col gap-1 mb-3'> 
@@ -95,12 +98,12 @@ const RegisterForm = () => {
             type='email' 
             placeholder='Enter email'
             value={registerInfo.email} 
-            className='px-2 py-1 rounded bg-white outline-0' />
+            className='px-2 py-1 rounded-md bg-white outline-0' />
         </div>
 
         <div className='flex flex-col gap-1 mb-3'>
           <label htmlFor='password' className='font-semibold'>Password</label>
-          <div className='flex items-center justify-between bg-white px-2 py-1 rounded'>
+          <div className='flex items-center justify-between bg-white px-2 py-1 rounded-md'>
             <input onChange={handleChange} 
               name='password' 
               id='password' 
@@ -112,8 +115,15 @@ const RegisterForm = () => {
           </div>
         </div>
         
-        <button type='submit' className='w-full bg-blue-600 text-white my-3 p-2 
-        rounded cursor-pointer hover:bg-blue-500'>Register</button>
+        <button 
+          disabled={loading}
+          type='submit' 
+          className='w-full flex justify-center items-center bg-blue-600 text-white my-3 p-2 
+          rounded-md cursor-pointer hover:bg-blue-500'>
+            {loading ? (
+              <Loader className="h-5 w-5 animate-spin text-white" />
+            ) : 'Regiter'}
+        </button>
       </form>
 
       <div className='flex gap-1 mt-2 justify-center items-center'>
