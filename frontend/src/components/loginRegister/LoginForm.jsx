@@ -104,7 +104,7 @@ const LoginForm = () => {
             className='w-full flex items-center justify-center bg-blue-600 text-white p-2 
             rounded-md cursor-pointer hover:bg-blue-500'>
               {loading ? (
-                <Loader className="h-5 w-5 animate-spin text-white" />
+                <Loader strokeWidth={2} className="h-6 w-6 animate-spin text-white" />
               ) : 'Login'}
           </button>
         </form>

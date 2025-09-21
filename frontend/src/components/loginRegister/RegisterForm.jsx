@@ -121,7 +121,7 @@ const RegisterForm = () => {
           className='w-full flex justify-center items-center bg-blue-600 text-white my-3 p-2 
           rounded-md cursor-pointer hover:bg-blue-500'>
             {loading ? (
-              <Loader className="h-5 w-5 animate-spin text-white" />
+              <Loader strokeWidth={2} className="h-6 w-6 animate-spin text-white" />
             ) : 'Regiter'}
         </button>
       </form>
